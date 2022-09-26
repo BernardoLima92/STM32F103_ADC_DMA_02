@@ -5,7 +5,7 @@ Using ADC trigged by TIMER and DMA
 Neste tutorial o ADC1 do STM32F103C8T6 (Bluepill) é acionado pelo Trigger do Timer 4. Todo o código foi desenvolvido no STMCubeIDE.
 A Figura abaixo mostra como o programa foi pensado:
 
-![Diagramatempo](https://user-images.githubusercontent.com/114233216/192272110-1b7102e7-67b9-464f-a838-48fa5ec6c551.png)
+![Diagramatempo](https://user-images.githubusercontent.com/114233216/192276086-33fb1ae2-88d6-411f-80dc-d5cba55cc17d.png)
 
 Quando o contador do Timer4 (TIM4_CNT) for igual a 513, que é o valor existente no registrador do canal 4 (TIM4_CCR4), um sinal de trigger "Toggle on Match" é produzido
 e enviado para o ADC para que uma conversão seja iniciada via DMA. Obs: A conversão só é iniciada nas bordas de subida.
@@ -35,5 +35,23 @@ Configuração do DMA
 
 Parte Principal do Código:
 ![codigo pt1](https://user-images.githubusercontent.com/114233216/192275452-8c763004-d4a0-4d7a-92a9-be85da0b8639.png)
+
 ![codigo pt3](https://user-images.githubusercontent.com/114233216/192275498-94841f6e-ada0-4eec-8fcc-a1b2f2f478f4.png)
+
 ![codigo pt4](https://user-images.githubusercontent.com/114233216/192275514-94643289-171d-4081-ba8b-1972913d8da5.png)
+
+
+Resultado do Experimento
+
+![3](https://user-images.githubusercontent.com/114233216/192277039-88636c90-cf1e-4e16-bf05-add2ad961c6d.png)
+
+Conectei um osciloscópio à porta PB7. O resultado está mostrado na figura acima. Tanto a borda superior quanto a borda inferior desse sinal amarelo
+indicam o inicio do preenchimento do buffer com o resultado das conversões ADC. Como pode ser visto, para preencher o buffer com 18 conversões ADC 
+foram necessários aproximadamente 3,4mS. 
+
+O Clock do Timer4 é de 8MHz, logo o contador do timer incrementa a cada 125nS. Um ciclo completo (768 pulsos de clock) dura 96uS.
+Assim, a cada 96uS uma conversão ADC é realizada. Como são realizadas 18 conversões no total, temos que 18 * 96uS = 1,72mS 
+Porém, como o trigger só ocorre nas bordas de subida, a conta correta é 18 * 192uS = 3,45mS.
+A figura abaixo ilustra esse raciocínio.
+
+
