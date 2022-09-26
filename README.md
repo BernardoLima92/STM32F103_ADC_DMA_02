@@ -54,4 +54,5 @@ Assim, a cada 96uS uma conversão ADC é realizada. Como são realizadas 18 conv
 Porém, como o trigger só ocorre nas bordas de subida, a conta correta é 18 * 192uS = 3,45mS.
 A figura abaixo ilustra esse raciocínio.
 
+![triggertime](https://user-images.githubusercontent.com/114233216/192282216-11a51706-4533-49fa-8f9e-a9a8790451ef.png)
 
